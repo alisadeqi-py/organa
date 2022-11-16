@@ -1,0 +1,17 @@
+from django.db import models
+
+# Create your models here.
+
+
+from django.db import models
+from product.models import Product
+# Create your models here.
+
+
+class Banner(models.Model):
+    Product = models.ForeignKey(Product , on_delete = models.CASCADE)
+    pic = models.ImageField(upload_to='images/banner')
+
+
+
+
