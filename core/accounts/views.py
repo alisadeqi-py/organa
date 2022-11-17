@@ -21,7 +21,8 @@ class RegistrationApiView(generics.GenericAPIView):
         if serializer.is_valid():
             User.objects.create_user(username = serializer.data['username'] , 
             email = serializer.data['email'] , address = serializer.data['address'] , password = serializer.data['password'] 
-             , first_name = serializer.data['first_name'] , last_name = serializer.data['last_name'] , phonenumber = serializer.data['phonenumber'])
+             , first_name = serializer.data['first_name'] , last_name = serializer.data['last_name'] , phonenumber = serializer.data['phonenumber'] , zip_code = serializer.data['zip_code'],
+              city = serializer.data['city'] , state = serializer.data['state'])
             serializer.save
             data = {
                     'first_name':serializer.validated_data['first_name']

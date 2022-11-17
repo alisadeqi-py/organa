@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework',
     'django_filters',
-    'product',
-    'main',
-    'accounts',
-    'cart',
+    'product.apps.ProductConfig',
+    'main.apps.MainConfig',
+    'accounts.apps.AccountsConfig',
+    'cart.apps.CartsConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,9 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa-ir'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Iran'
 
 USE_I18N = True
 
