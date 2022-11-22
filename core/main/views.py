@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from product.models import Product , Category
-from .models import Banner
-from .serializers import MainProductSerializer , BannerSerializer , CategorySerializer
+from .models import Banner , Adver
+from .serializers import MainProductSerializer , BannerSerializer , CategorySerializer , AdverSerializer
 
 
 
@@ -22,3 +22,8 @@ class ProductSpecial(ListAPIView):
 class CategoryList(ListAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class Adver(ListAPIView):
+    serializer_class = AdverSerializer
+    queryset = Adver.objects.all()

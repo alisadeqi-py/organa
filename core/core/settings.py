@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'drf_yasg', 
     'rest_framework_swagger',
     'rest_framework',
@@ -147,3 +148,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+        'DEFAULT_FILTER_BACKENDS':
+        ['django_filters.rest_framework.DjangoFilterBackend',],
+         'DEFAULT_AUTHENTICATION_CLASSES' : [
+            'rest_framework.authentication.TokenAuthentication',],
+
+}
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [ 'http://localhost:3000', ]
+CORS_ALLOWED_ORIGINS_REGEXES = [ 'http://localhost:3000',]

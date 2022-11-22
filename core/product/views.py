@@ -6,7 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 class ProductList(ListAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.filter(status = True , )
+    queryset = Product.objects.filter()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['name','category','price']
 

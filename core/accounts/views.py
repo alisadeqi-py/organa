@@ -4,9 +4,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
-from .serializers import  ( RegistrationSerializer , UserUpdateSerializer , ChangePasswordSerialier , 
-                             CartSerializers , RequestOTPSerializer , RequestOTPResponseSerializer , 
-                             VerifyOtpRequestSerializer)
+from .serializers import  ( RegistrationSerializer , UserUpdateSerializer , ChangePasswordSerialier ,
+                             CartSerializers , RequestOTPSerializer , RequestOTPResponseSerializer ,
+                             VerifyOtpRequestSerializer , UserNameSerializer)
 from .models import User , OTPRequest
 from cart.models import Cart
 from django.shortcuts import get_object_or_404
@@ -19,8 +19,8 @@ class RegistrationApiView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = RegistrationSerializer(data = request.data)
         if serializer.is_valid():
-            User.objects.create_user(username = serializer.data['username'] , 
-            email = serializer.data['email'] , address = serializer.data['address'] , password = serializer.data['password'] 
+            User.objects.create_user(username = serializer.data['username'] ,
+            email = serializer.data['email'] , address = serializer.data['address'] , password = serializer.data['password']
              , first_name = serializer.data['first_name'] , last_name = serializer.data['last_name'] , phonenumber = serializer.data['phonenumber'] , zip_code = serializer.data['zip_code'],
               city = serializer.data['city'] , state = serializer.data['state'])
             serializer.save
@@ -40,7 +40,7 @@ class UserUpdateApiView(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         user = User.objects.get(id = request.user.id)
         serializer = UserUpdateSerializer(user)
-        return Response(serializer.data) 
+        return Response(serializer.data)
 
     def put(self, request, *args, **kwargs):
         user_r = request.user
@@ -52,6 +52,9 @@ class UserUpdateApiView(generics.GenericAPIView):
         user.phonenumber = data.get('phonenumber')
         user.first_name = data.get('first_name')
         user.last_name = data.get('last_name')
+        user.zip_code = data.get('zip_code')
+        user.state = data.get('state')
+        user.city = data.get('city')
         user.save()
         return Response('user updated')
 
@@ -89,12 +92,10 @@ class ChangePasswordApiView(generics.GenericAPIView):
 
 
 class CustomDiscardAuthToken(APIView):
-    serializer_class = RegistrationSerializer
     permission_classes = [IsAuthenticated]
-    
 
     def post(self , request):
-        request.user.auth_tokekn.delete()
+        request.user.auth_token.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -138,3 +139,8 @@ class OTPView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST, data = serializer.errors)
 
+class UserName(APIView):
+    def get(self, request):
+        user = User.objects.get(id = request.user.id)
+        serializer = UserNameSerializer(user)
+        return Response(serializer.data)

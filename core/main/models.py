@@ -13,5 +13,13 @@ class Banner(models.Model):
     pic = models.ImageField(upload_to='images/banner')
 
 
+class Adver(models.Model):
+    name = models.CharField(max_length=50)
+    pic = models.ImageField(upload_to='images/adver')
+
+    class Meta:
+        verbose_name = 'تبلیغ'
+        verbose_name_plural= "تبلیغات"
+
 
 

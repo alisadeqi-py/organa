@@ -1,15 +1,17 @@
-from rest_framework import serializers 
+from rest_framework import serializers
 from .models import User , OTPRequest
 from django.core import exceptions
 from  django.contrib.auth.password_validation import validate_password
 from cart.models import Cart
+
+
 class RegistrationSerializer(serializers.ModelSerializer):
 
     password1 = serializers.CharField(max_length=12 , write_only=True)
 
     class Meta:
-        model = User 
-        fields = [  'first_name','last_name', 'phonenumber' , 'email' , 'password' , 'password1' , 'address' , 'username' , 'city' , 'zip_code' , 'state'] 
+        model = User
+        fields = [  'first_name','last_name', 'phonenumber' , 'email' , 'password' , 'password1' , 'address' , 'username' , 'state' , 'city' , 'zip_code']
 
 
 
@@ -21,11 +23,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         except exceptions.ValidationError as e:
             raise serializers.ValidationError({'password':list(e.messages) })
         return super().validate(attr)
-        
+
 """     def create(self , validated_data):
-        
+
         validated_data.pop('password1', None)
-        
+
         return User.objects.create_user(validated_data) """
 
 
@@ -33,8 +35,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        model = User 
-        fields = [  'first_name','last_name', 'phonenumber' , 'email' , 'address' , 'username'] 
+        model = User
+        fields = [  'first_name','last_name', 'phonenumber' , 'email' , 'address' , 'username' , 'state' , 'city' , 'zip_code']
 
 class ChangePasswordSerialier(serializers.Serializer):
 
@@ -74,3 +76,11 @@ class VerifyOtpRequestSerializer(serializers.Serializer):
     request_id = serializers.UUIDField(allow_null=False)
     password = serializers.CharField(max_length=4, allow_null=False)
     receiver = serializers.CharField(max_length=64, allow_null=False)
+
+
+class UserNameSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = User
+        fields = ['username']

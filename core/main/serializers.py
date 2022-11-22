@@ -38,3 +38,12 @@ class CategorySerializer(serializers.ModelSerializer):
             'id',
             'name',
         ]
+
+class AdverSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Banner
+
+        fields = [
+            'pic', 'name' ,
+        ]
