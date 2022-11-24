@@ -132,28 +132,4 @@ class BasketFinal(APIView):
         serializer = UserNameSerializer(user)
         return Response(serializer.data)
     
-
-
-""" class UserUpdateApiView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserUpdateSerializer
-
-    def get(self, request, *args, **kwargs):
-        user = User.objects.get(id = request.user.id)
-        serializer = UserUpdateSerializer(user)
-        return Response(serializer.data)
-
-    def put(self, request, *args, **kwargs):
-        user_r = request.user
-        data = request.data
-        user = User.objects.get(id = user_r.id)
-        user.username = data.get('username')
-        user.email = data.get('email')
-        user.address = data.get('address')
-        user.phonenumber = data.get('phonenumber')
-        user.first_name = data.get('first_name')
-        user.last_name = data.get('last_name')
-        user.zip_code = data.get('zip_code')
-        user.state = data.get('state')
-        user.city = data.get('city')
-        return Response('user updated') """
+      
