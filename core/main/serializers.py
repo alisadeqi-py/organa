@@ -1,6 +1,6 @@
 from product.models import Product , Category
 from rest_framework import serializers
-from .models import Banner 
+from .models import Banner , Adver
 
 class MainProductSerializer(serializers.ModelSerializer):
 
@@ -42,7 +42,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class AdverSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Banner
+        model = Adver
 
         fields = [
             'pic', 'name' ,

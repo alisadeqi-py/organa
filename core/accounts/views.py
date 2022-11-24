@@ -1,11 +1,11 @@
 from urllib import response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView 
+from rest_framework.generics import ListAPIView , RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
-from .serializers import  ( RegistrationSerializer , UserUpdateSerializer , ChangePasswordSerialier ,
+from .serializers import  ( RegistrationSerializer , UserSerializer , ChangePasswordSerialier ,
                              CartSerializers , RequestOTPSerializer , RequestOTPResponseSerializer ,
                              VerifyOtpRequestSerializer , UserNameSerializer)
 from .models import User , OTPRequest
@@ -34,30 +34,7 @@ class RegistrationApiView(generics.GenericAPIView):
 
 
 
-class UserUpdateApiView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserUpdateSerializer
 
-    def get(self, request, *args, **kwargs):
-        user = User.objects.get(id = request.user.id)
-        serializer = UserUpdateSerializer(user)
-        return Response(serializer.data)
-
-    def put(self, request, *args, **kwargs):
-        user_r = request.user
-        data = request.data
-        user = User.objects.get(id = user_r.id)
-        user.username = data.get('username')
-        user.email = data.get('email')
-        user.address = data.get('address')
-        user.phonenumber = data.get('phonenumber')
-        user.first_name = data.get('first_name')
-        user.last_name = data.get('last_name')
-        user.zip_code = data.get('zip_code')
-        user.state = data.get('state')
-        user.city = data.get('city')
-        user.save()
-        return Response('user updated')
 
 
 class ChangePasswordApiView(generics.GenericAPIView):
@@ -88,6 +65,19 @@ class ChangePasswordApiView(generics.GenericAPIView):
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        serializer = self.serializer_class(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.serializer_class(request.user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 
@@ -95,7 +85,7 @@ class ChangePasswordApiView(generics.GenericAPIView):
 class CustomDiscardAuthToken(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self , request):
+    def delete(self , request):
         request.user.auth_token.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -142,3 +132,28 @@ class BasketFinal(APIView):
         serializer = UserNameSerializer(user)
         return Response(serializer.data)
     
+
+
+""" class UserUpdateApiView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserUpdateSerializer
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(id = request.user.id)
+        serializer = UserUpdateSerializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        user_r = request.user
+        data = request.data
+        user = User.objects.get(id = user_r.id)
+        user.username = data.get('username')
+        user.email = data.get('email')
+        user.address = data.get('address')
+        user.phonenumber = data.get('phonenumber')
+        user.first_name = data.get('first_name')
+        user.last_name = data.get('last_name')
+        user.zip_code = data.get('zip_code')
+        user.state = data.get('state')
+        user.city = data.get('city')
+        return Response('user updated') """

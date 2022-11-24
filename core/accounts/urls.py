@@ -1,11 +1,11 @@
 from django.urls import path
 from rest_framework.authtoken import views
-from .views import (CustomDiscardAuthToken , RegistrationApiView , UserUpdateApiView ,
+from .views import (CustomDiscardAuthToken , RegistrationApiView , UserRetrieveUpdateAPIView ,
                      ChangePasswordApiView , CartView , OTPView ,BasketFinal)
 urlpatterns = [
     #registration 
     path('registration/' , RegistrationApiView.as_view() , name='registration'),
-    path('update/' , UserUpdateApiView.as_view() , name='UserUpdate'),
+    path('update/' , UserRetrieveUpdateAPIView.as_view() , name='UserUpdate'),
     path('changepass/' , ChangePasswordApiView.as_view() , name = 'reserpassword'),
     path('carts/' , CartView.as_view() , name = 'Cart'),
     path('BasketFinal/' , BasketFinal.as_view() , name = 'username'),

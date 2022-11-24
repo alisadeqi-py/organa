@@ -24,19 +24,17 @@ class RegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password':list(e.messages) })
         return super().validate(attr)
 
-"""     def create(self , validated_data):
-
-        validated_data.pop('password1', None)
-
-        return User.objects.create_user(validated_data) """
 
 
-class UserUpdateSerializer(serializers.ModelSerializer):
 
+class UserSerializer( serializers.ModelSerializer):
 
     class Meta:
         model = User
         fields = [  'first_name','last_name', 'phonenumber' , 'email' , 'address' , 'username' , 'state' , 'city' , 'zip_code']
+
+
+        
 
 class ChangePasswordSerialier(serializers.Serializer):
 
