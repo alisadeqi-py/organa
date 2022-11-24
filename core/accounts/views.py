@@ -1,5 +1,6 @@
 from urllib import response
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -99,16 +100,12 @@ class CustomDiscardAuthToken(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class CartView(generics.GenericAPIView):
-
-    serializer_class = CartSerializers
+class CartView(ListAPIView):
     permission_classes = [IsAuthenticated]
-    def get(self , request , *args, **kwargs):
-        #print(request.user.id)
-        user = User.objects.get(id = request.user.id)
-        carts = get_object_or_404( Cart, user = user)
-        serializer = CartSerializers(carts)
-        return Response(serializer.data)
+    serializer_class = CartSerializers
+    
+    def get_queryset(self):
+        return Cart.objects.filter(user=self.request.user)
 
 
 class OTPView(APIView):
@@ -139,8 +136,9 @@ class OTPView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST, data = serializer.errors)
 
-class UserName(APIView):
+class BasketFinal(APIView):
     def get(self, request):
         user = User.objects.get(id = request.user.id)
         serializer = UserNameSerializer(user)
         return Response(serializer.data)
+    

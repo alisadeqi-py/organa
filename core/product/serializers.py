@@ -17,5 +17,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'M_taking',
             'description',
             'price',
-            'status'
+            'status',
+            'category'
         ]

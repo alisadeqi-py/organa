@@ -61,7 +61,7 @@ class CartSerializers(serializers.ModelSerializer):
     class Meta:
         model = Cart
 
-        fields = '__all__'
+        fields = ['user','order','total_price']
 
 
 class RequestOTPSerializer(serializers.Serializer):
@@ -83,4 +83,4 @@ class UserNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username' , 'address' , 'zip_code', 'city','state']

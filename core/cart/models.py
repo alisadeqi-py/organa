@@ -11,6 +11,7 @@ class Cart(models.Model):
     order = models.BooleanField(default=False)
     total_price = models.IntegerField(default= 0 )
     sent = models.BooleanField(default=0)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
 
@@ -34,14 +35,3 @@ class CartItems(models.Model):
 
         return str(self.user.username) + " " + str(self.product.name)
     
-
-
-@receiver(pre_save, sender=CartItems)
-def correct_price(sender, **kwargs):
-    cart_item = kwargs['instance']
-    price_of_product = Product.objects.get(id=cart_item.product.id)
-    cart_item.price = price_of_product.price * float(price_of_product.price)
-   # total_cart_item = CartItems.objects.filter(user = cart_item.user ) 
-    cart = Cart.objects.get(id = cart_item.cart.id)
-    cart.total_price = cart_item.price * cart_item.quantity
-    cart.save() 
